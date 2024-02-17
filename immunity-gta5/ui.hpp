@@ -1,17 +1,16 @@
 #pragma once
-#include "imports.h"
-#include "ui_extend.hpp"
+#include "../imports.h"
+#include "../ui_extend.hpp"
 
 namespace game {
 	extern int game_ticks;
 	extern float tick_ms;
 }
 
-char version[20] = "3.1.1";
+char version[20] = "3.1.3";
 
 const char* AimBones[] = {"Head", "Neck", "Body","Closest"};
 const char* AimModes[] = {"Raw", "Normal", "Horizontal","Silent (not legit!)"};
-//const char* ESPModes[] = { "Box", "Text", "AimBox", "Dot","Skeleton" };
 const char* ESPHPModes[] = {"Off", "Bar", "Text", "Text Combined"};
 const char* ESPBarModes[] = {"Top", "Bottom", "Left", "Right"};
 const char* ESPBoxModes[] = {"Border", "Corners", "Filled", "Filled & Corners"};
@@ -792,9 +791,6 @@ namespace ui {
 			}
 
 
-			//bool enable_silent = config::get("aimbot", "silent_aim", 0);
-			//ImmunityUI::Checkbox("enable_silent", &enable_silent);
-			//config::update(enable_silent, "aimbot", "silent_aim", 0);
 			if (aim_mode == 3) {
 				bool silent_aim_auto = config::get("aimbot", "silent_aim_auto", 0);
 				ImmunityUI::Checkbox("Auto Fire", &silent_aim_auto);
@@ -814,7 +810,6 @@ namespace ui {
 
 				float aim_movement_prediction_distance = config::get("aimbot", "aim_movement_prediction_distance", 0.f);
 				ImmunityUI::SliderFloatCustom("##Prediction distance", &aim_movement_prediction_distance, 0.0f, 0.5f, "%.3f", 1);
-				//ImmunityUI::SliderFloatCustom("##Prediction distance", &aim_movement_prediction_distance, 0.0f, 0.1f, "%.3f %", 1);
 				config::update(aim_movement_prediction_distance, "aimbot", "aim_movement_prediction_distance", 0.f);
 			}
 
@@ -847,26 +842,6 @@ namespace ui {
 			}
 
 
-
-			/*ImGui::Text("Experimental");
-			Helper("Experimental Features, may not work on every server");
-
-			bool backtrack_enable = config::get("aimbot", "backtrack_enable", 0);
-			ImGui::Checkbox("Backtrack", &backtrack_enable);
-			config::update(backtrack_enable, "aimbot", "backtrack_enable", 0);
-			if (backtrack_enable) {
-				ImGui::Text("Backtrack Distance");
-				Helper("Distance the Aimbot will try to backtrack");
-				float backtrack_distance = config::get("aimbot", "backtrack_distance", 0.f);
-				ImGui::SliderFloat("##backtrack_distance", &backtrack_distance, 0.0f, 5.0f, "%.3f", 1);
-				config::update(backtrack_distance, "aimbot", "backtrack_distance", 0.f);
-			}*/
-
-
-
-
-
-
 			ImGui::NextColumn();
 			ImGui::PushItemWidth((menuWidth0 / 3) - 20.f);
 
@@ -888,15 +863,10 @@ namespace ui {
 					aim_offset_always_renew = 0;
 				}
 				config::update(aim_offset_always_renew, "aimbot", "aim_offset_always_renew", 0);
-				//bool aim_draw_offset = config::get("aimbot", "aim_draw_offset", 0);
-				//ImGui::Checkbox("Draw Aim Offset", &aim_draw_offset);
-				//Helper("Draws the Offset visually");
-				//config::update(aim_draw_offset, "aimbot", "aim_draw_offset", 0);
 
 				if (!aim_offset_range) {
 					ImGui::Text("Aim Offset X");
 					float aim_target_offset_static_x = config::get("aimbot", "aim_target_offset_static_x", 0.f);
-					//ImGui::SliderFloat2("##Aim Offset X", &aim_target_offset_static_x, -1.0f, 1.0f, "%.0f", 0.01f);
 
 					ImGui::SliderFloat("##aimoffsetx", &aim_target_offset_static_x, -1.0f, 1.0f, "%.3f", 1);
 
@@ -1024,16 +994,6 @@ namespace ui {
 
 
 
-
-			//ImGui::Text("ESP");
-			/*int esp_mode = config::get("visual", "esp_mode", 0);
-			ImGui::Combo("##ESP Mode", &esp_mode, ESPModes, IM_ARRAYSIZE(ESPModes));
-			config::update(esp_mode, "visual", "esp_mode", 0);*/
-
-			//bool draw_text = config::get("visual", "draw_text", 0);
-			//ImGui::Checkbox("draw_text", &draw_text);
-			//config::update(draw_text, "visual", "draw_text", 0);
-
 			bool draw_aim_dot = config::get("visual", "draw_aim_dot", 0);
 			ImmunityUI::Checkbox("Aim Dot", &draw_aim_dot);
 			config::update(draw_aim_dot, "visual", "draw_aim_dot", 0);
@@ -1048,13 +1008,6 @@ namespace ui {
 				ImmunityUI::SliderFloatCustom("##SkeletonThickness", &skeleton_thickness, 0.0f, 3.0f, "%.3f", 1);
 				config::update(skeleton_thickness, "visual", "skeleton_thickness", 0.f);
 			}
-
-			//ImGui::Text("ESP HP Mode");
-			//int esp_health_mode = config::get("visual", "esp_health_mode", 0);
-			//ImGui::Combo("##ESP HP Mode", &esp_health_mode, ESPHPModes, IM_ARRAYSIZE(ESPHPModes));
-
-
-			//config::update(esp_health_mode, "visual", "esp_health_mode", 0);
 
 			bool draw_healthbar = config::get("visual", "draw_healthbar", 0);
 			ImmunityUI::Checkbox("Health Bar", &draw_healthbar);
@@ -1103,7 +1056,6 @@ namespace ui {
 						config::get("visual", "draw_box_fill_color_a", 0.2f)
 					);
 
-					//ImGui::ColorPicker4("MyColor##4", (float*)&color, flags, NULL);
 					ImGui::ColorEdit4("##BoxFillColor", (float*)&box_fill_color, flags);
 					config::update(box_fill_color.Value.x, "visual", "draw_box_fill_color_r", 1.f);
 					config::update(box_fill_color.Value.y, "visual", "draw_box_fill_color_g", 0.f);
@@ -1124,42 +1076,11 @@ namespace ui {
 			ImGui::NextColumn();
 			ImGui::PushItemWidth((menuWidth0 / 2) - 20.f);
 
-
-			//float aim_target_offset_range_y_max = config::get("aimbot", "aim_target_offset_range_y_max", 0.f);
-			///config::update(aim_target_offset_range_y_min, "aimbot", "aim_target_offset_range_y_min", 0.f);
-
-
 			ImGui::Text("Groups");
 			bool display_groups = config::get("visual", "display_groups", 0);
 			ImmunityUI::Checkbox("Display Groups", &display_groups);
 			config::update(display_groups, "visual", "display_groups", 0);
 
-
-
-
-
-			/*bool show_movement = config::get("visual", "show_movement", 0);
-			ImGui::Checkbox("Show Movement", &show_movement);
-			config::update(show_movement, "visual", "show_movement", 0);
-
-			if (show_movement) {
-				ImGui::Text("Movement Distance");
-				float movement_distance = config::get("visual", "movement_distance", 0.f);
-				ImGui::SliderFloat("##movement_distance", &movement_distance, 0.01f, 3.0f, "%.3f", 1);
-				//ImGui::DragFloat("##Visual Prediction distance", &ESPDrawMovementDist, 0.01f, 0.0f, 2.0f);
-				config::update(movement_distance, "visual", "movement_distance", 0.f);
-			}
-
-			bool aim_sight = config::get("visual", "aim_sight", 0);
-			ImGui::Checkbox("Draw AimSight", &aim_sight);
-			config::update(aim_sight, "visual", "aim_sight", 0);
-
-			if (aim_sight) {
-				ImGui::Text("AimSight Distance");
-				float aim_sight_distance = config::get("visual", "aim_sight_distance", 0.f);
-				ImGui::SliderFloat("##aim_sight_distance", &aim_sight_distance, 0.01f, 3.0f, "%.3f", 1);
-				config::update(aim_sight_distance, "visual", "aim_sight_distance", 0.f);
-			}*/
 
 
 			bool radar = config::get("visual", "radar", 0);
@@ -1247,7 +1168,6 @@ namespace ui {
 
 
 			ImGui::Text("Visibility");
-			Helper("Groups can be used to categorize peds by clothing");
 
 			bool misc_include_vehicles = config::get("misc", "misc_include_vehicles", 0);
 			ImmunityUI::Checkbox("Include Vehicles in Check", &misc_include_vehicles);
@@ -1757,11 +1677,6 @@ namespace ui {
 			}
 
 
-			//bool force_allow_driveby = config::get("misc", "force_allow_driveby", 0);
-			//ImGui::Checkbox("Force Driveby Enabled", &force_allow_driveby);
-			//Helper("Allow driveby even when the server blocks it.");
-			//config::update(force_allow_driveby, "misc", "force_allow_driveby", 0);
-
 			bool hide_anticheat_npcs = config::get("misc", "hide_anticheat_npcs", 0);
 			ImmunityUI::Checkbox("Hide Anticheat NPCs", &hide_anticheat_npcs);
 			Helper("Hide NPCs that are trying to irritate you");
@@ -1772,16 +1687,6 @@ namespace ui {
 			Helper("Disables Vehicle Exit Tasks");
 			config::update(no_force_exit, "misc", "no_force_exit", 0);
 
-			bool spoof_godmode_checks = config::get("misc", "spoof_godmode_checks", 0);
-			ImmunityUI::Checkbox("Spoof Godmode Checks", &spoof_godmode_checks);
-			Helper("Spoofs return values when servers check if godmode is enabled (player)");
-			config::update(spoof_godmode_checks, "misc", "spoof_godmode_checks", 0);
-
-
-			//bool spoof_peds = config::get("misc", "spoof_peds", 0);
-			//ImmunityUI::Checkbox("spoof_peds", &spoof_peds);
-			//Helper("spoof_peds");
-			//config::update(spoof_peds, "misc", "spoof_peds", 0);
 
 			ImGui::Columns();
 		}
@@ -1791,9 +1696,6 @@ namespace ui {
 			ImGui::Indent(5.f);
 
 
-			//bool kill_aura = config::get("hacks", "kill_aura", 0);
-			//ImGui::Checkbox("kill_aura", &kill_aura);
-			//config::update(kill_aura, "hacks", "kill_aura", 0);
 
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			if (ImGui::BeginTabBar("##taaaab", tab_bar_flags)) {
@@ -1827,25 +1729,7 @@ namespace ui {
 						config::update(noclip_speed, "hacks", "noclip_speed", 0.f);
 					}
 
-					//bool freecam_enabled = config::get("hacks", "freecam_enabled", 0);
-					//ImGui::Checkbox("freecam_enabled", &freecam_enabled);
-					//config::update(freecam_enabled, "hacks", "freecam_enabled", 0);
-					//if(freecam_enabled) {
-					//	bool freecam_steal = config::get("hacks", "freecam_steal", 0);
-					//	ImGui::Checkbox("freecam steal", &freecam_steal);
-					//	config::update(freecam_steal, "hacks", "freecam_steal", 0);
-					//	Helper("Allows you to steal entities and teleport them to you.");
-					//
-					//	ImGui::Text("Freecam Speed");
-					//	float freecam_speed = config::get("hacks", "freecam_speed", 1.f);
-					//	ImGui::SliderFloat("##freecam_speed", &freecam_speed, 0.1f, 10.f, "%.1f", 1);
-					//	config::update(freecam_speed, "hacks", "freecam_speed", 1.f);
-					//
-					//	ImGui::Text("Freecam FOV");
-					//	float freecam_fov = config::get("hacks", "freecam_fov", 60.f);
-					//	ImGui::SliderFloat("##freecam_fov", &freecam_fov, 20.0f, 70.f, "%.1f", 1);
-					//	config::update(freecam_fov, "hacks", "freecam_fov", 60.f);
-					//}
+					
 
 					ImGui::Text("Teleport");
 					if (ImGui::Button("Teleport to Waypoint", ImVec2((menuWidth0 / 2), 25.f))) {
@@ -1996,26 +1880,6 @@ namespace ui {
 
 
 
-					bool fast_run = config::get("hacks", "fast_run", 0);
-					ImmunityUI::Checkbox("Fast Run", &fast_run);
-					config::update(fast_run, "hacks", "fast_run", 0);
-
-					if (fast_run) {
-						float fast_run_val = config::get("hacks", "fast_run_val", 1.f);
-						ImmunityUI::SliderFloatCustom("##fast_run_val", &fast_run_val, 1.0f, 10.f, "%.3f", 1);
-						config::update(fast_run_val, "hacks", "fast_run_val", 1.f);
-					}
-
-
-					//bool small_player = config::get("hacks", "small_player", 0);
-					//ImmunityUI::Checkbox("Change Player Capsule", &small_player);
-					//config::update(small_player, "hacks", "small_player", 0);
-					//
-					//if (small_player) {
-					//	float small_player_val = config::get("hacks", "small_player_val", 1.f);
-					//	ImmunityUI::SliderFloatCustom("##small_player_val", &small_player_val, 0.1f, 10.f, "%.3f", 1);
-					//	config::update(small_player_val, "hacks", "small_player_val", 1.f);
-					//}
 
 					bool nocollision = config::get("hacks", "no_collision_ped", 0);
 					ImmunityUI::Checkbox("Disable Collision", &nocollision);
@@ -2048,17 +1912,6 @@ namespace ui {
 						config::update(clear_task_key_key_num, "hacks", "clear_task_key_key_num", 1);
 					}
 
-					//bool noclip = config::get("hacks", "noclip", 0);
-					//ImGui::Checkbox("noclip", &noclip);
-					//config::update(noclip, "hacks", "noclip", 0);
-					//
-					//if (noclip) {
-					//	float noclip_speed = config::get("hacks", "noclip_speed", 1.f);
-					//	ImGui::SliderFloat("##noclip_speed", &noclip_speed, 1.0f, 100.f, "%.3f", 1);
-					//	config::update(noclip_speed, "hacks", "noclip_speed", 1.f);
-					//}
-
-
 
 					ImGui::EndTabItem();
 				}
@@ -2072,8 +1925,6 @@ namespace ui {
 
 
 
-
-					//if (!isFiveM) {
 					bool vehicle_god = config::get("hacks", "vehicle_godmode", 0);
 					ImmunityUI::Checkbox("Godmode", &vehicle_god);
 					config::update(vehicle_god, "hacks", "vehicle_godmode", 0);
@@ -2081,11 +1932,6 @@ namespace ui {
 					bool no_deformations = config::get("hacks", "no_deformations", 0);
 					ImmunityUI::Checkbox("No Deformations", &no_deformations);
 					config::update(no_deformations, "hacks", "no_deformations", 0);
-					//}
-
-					//bool seatbelt = config::get("hacks", "seatbelt", 0);
-					//ImGui::Checkbox("Seatbelt", &seatbelt);
-					//config::update(seatbelt, "hacks", "seatbelt", 0);
 
 
 					bool unlock_nearby = config::get("hacks", "unlock_nearby", 0);
@@ -2101,12 +1947,6 @@ namespace ui {
 					ImmunityUI::Checkbox("Disable Collision##veh", &no_collision_veh);
 					config::update(no_collision_veh, "hacks", "no_collision_veh", 0);
 
-					//bool no_collision_veh = config::get("hacks", "no_collision_veh", 0);
-					//ImGui::Checkbox("Disable Collision", &no_collision_veh);
-					//config::update(no_collision_veh, "hacks", "no_collision_veh", 0);
-
-
-					//if (!isFiveM) {
 					bool vehicle_gravity = config::get("hacks", "vehicle_gravity", 0);
 					ImmunityUI::Checkbox("Vehicle gravity", &vehicle_gravity);
 					config::update(vehicle_gravity, "hacks", "vehicle_gravity", 0);
@@ -2149,7 +1989,6 @@ namespace ui {
 
 					if (ImGui::Button("Fix Vehicle", ImVec2((menuWidth0 / 2), 25.f))) {
 						tick::thread_invoker::queue([] {
-							//set_ped_shoots_at_coord
 							bool is_in_vehicle = native::ped::is_ped_in_any_vehicle(native::player::player_ped_id(), false);
 							if (is_in_vehicle) {
 								native::type::any entity = native::ped::get_vehicle_ped_is_in(native::player::get_player_ped(-1), false);
@@ -2269,6 +2108,21 @@ namespace ui {
 							}
 						);
 					}
+
+
+					if (ImGui::Button("Clean Vehicle", ImVec2((menuWidth0 / 2), 25.f))) {
+						tick::thread_invoker::queue([] {
+							//set_ped_shoots_at_coord
+							bool is_in_vehicle = native::ped::is_ped_in_any_vehicle(native::player::player_ped_id(), false);
+							if (is_in_vehicle) {
+								native::type::any entity = native::ped::get_vehicle_ped_is_in(native::player::get_player_ped(-1), false);
+								if (entity) {
+									native::vehicle::set_vehicle_dirt_level(entity,0.f);
+								}
+							}
+							});
+					}
+
 
 					ImGui::Columns();
 
@@ -2399,9 +2253,9 @@ namespace ui {
 			std::snprintf(versionText, sizeof(versionText), "version %s", version);
 			ImGui::Text(versionText);
 
-			ImGui::Text(("build userid:" + (string)to_string(Game.UserID)).c_str());
-			ImGui::Text(("mod:" + (string)(Game.game_mod_base == 0 ? "gta" : Game.game_mod_base == 1 ? "ragemp" : "altv")).c_str());
-			ImGui::Text(("renderer:" + (string)(Game.renderMethod == 0 ? "steam overlay" : Game.renderMethod == 1 ? "discord overlay" : Game.renderMethod == 3 ? "nvidia" : "own (not record save)")).c_str());
+			//ImGui::Text(("build userid:" + (string)to_string(Game.UserID)).c_str());
+			//ImGui::Text(("mod:" + (string)(Game.game_mod_base == 0 ? "gta" : Game.game_mod_base == 1 ? "ragemp" : "altv")).c_str());
+			//ImGui::Text(("renderer:" + (string)(Game.renderMethod == 0 ? "steam overlay" : Game.renderMethod == 1 ? "discord overlay" : Game.renderMethod == 3 ? "nvidia" : "own (not record save)")).c_str());
 
 			ImGui::NextColumn();
 			ImGui::PushItemWidth((menuWidth0 / 2) - 20.f);
@@ -2482,9 +2336,6 @@ namespace ui {
 				if (ImGui::Button("Dump Entrypoints", ImVec2(((menuWidth0 / 2) - 20.f) / 4, 0))) {
 					native::invoker::dump_natives();
 				}
-				//bool performance_mode = config::get("debug", "performance_mode", 0);
-				//ImGui::Checkbox("performance_mode", &performance_mode);
-				//config::update(performance_mode, "debug", "performance_mode", 0);
 			}
 
 
