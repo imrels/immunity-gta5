@@ -46,7 +46,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 		logs::clear();
 		Game.base = (uintptr_t)GetModuleHandleA(0);
-		Game.UserID = reinterpret_cast<int64_t>(lpReserved);
 		Game.hModule = hModule;
 		logs::add("module entry");
 		Sleep(100);
