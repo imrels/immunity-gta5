@@ -289,7 +289,7 @@ namespace pointers {
 
 
 
-		Game.gta_game_state = reinterpret_cast<game_state_t*>(as_relative(findPattern(game_executable, enc("48 85 C9 74 4B 83 3D")), 7));
+		Game.gta_game_state = reinterpret_cast<game_state_t*>(as_relative(findPattern(game_executable, enc("83 3D ? ? ? ? ? 75 17 8B 43 20 25")), 7));
 		if (!IsValidPtr(Game.gta_game_state)) {
 			add_log("cant find game_state");
 
